@@ -12,5 +12,8 @@ public interface EntidadGrafica {
 	
 	public void notificarse_cambio_visibilidad();
 
+	/** Activa o desactiva el resaltado de pista (lo usa el parpadeo de la GUI). */
+	public void resaltar(boolean resaltada);
+
 
 }

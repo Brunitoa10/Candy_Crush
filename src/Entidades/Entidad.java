@@ -152,6 +152,18 @@ public abstract class Entidad implements EntidadLogica, Enfocable, Intercambiabl
 
 	public abstract boolean esAfectadaPorExplosionAdyacente();
 
+	/** Indica si la entidad puede cambiar de color al mezclar el tablero (solo gemas normales). */
+	public boolean esMezclable() {
+		return false;
+	}
+
+	/** Cambia el color (al mezclar el tablero) y refresca su imagen. */
+	public void cambiarColor(int nuevoColor) {
+		set_color(nuevoColor);
+		cargarImagenesRepresentativas(rutadeLaImagen);
+		notificar(EntidadGrafica::notificarse_cambio_foco); // reutiliza el refresco de imagen
+	}
+
 	public boolean tieneGemaInterna()
 	{
 		return false;

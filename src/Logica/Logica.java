@@ -23,7 +23,6 @@ import Timer.TickObserver;
 public class Logica {
 
 	private static final int NIVEL_INICIAL = 1;
-	private static final int CANTIDAD_NIVELES = 5;
 
 	// Atributos
 	protected Tablero miTablero;
@@ -34,6 +33,7 @@ public class Logica {
 	protected String skin;
 	protected final ObservableTimer observableTimer = new ObservableTimer();
 	private boolean partidaTerminada;
+	private AsistentePistas asistentePistas;
 
 	/** Reloj del nivel. Se vuelve a suscribir en cada carga, porque las cargas limpian el timer. */
 	private final TickObserver relojNivel = evento -> avanzarReloj(); // el timer ya notifica en el hilo de Swing
@@ -54,12 +54,13 @@ public class Logica {
 		prepararNivel(nivelActual);
 		miGUI.inicializarJuego(miTablero.getFila(), miTablero.getColumna());
 		ubicarEntidadesYJugador();
+		miTablero.mezclarSiNoHayJugadas();
 		observableTimer.resume();
 	}
 
 	public void iniciarSiguienteNivel() {
 		nivelActual++;
-		if (nivelActual <= CANTIDAD_NIVELES) {
+		if (GeneradorNivel.existeNivel(nivelActual)) { // alcanza con agregar NivelN.txt para sumar niveles
 			cargarNivel(nivelActual);
 		} else {
 			finalizarJuego();
@@ -95,6 +96,7 @@ public class Logica {
 		miGUI.cambiarFondo(nivel);
 		miGUI.actualizarScore(administradordeScore.getScore());
 		ubicarEntidadesYJugador();
+		miTablero.mezclarSiNoHayJugadas();
 		reanudarTiempo();
 	}
 
@@ -105,6 +107,10 @@ public class Logica {
 		miNivel = GeneradorNivel.cargar_nivel_y_tablero(miTablero, nivel, this, skin);
 		miTablero.crearAdministradorEstrategias(miNivel.getEstrategias());
 		observableTimer.addObserver(relojNivel);
+		if (asistentePistas == null) {
+			asistentePistas = new AsistentePistas(miGUI);
+		}
+		asistentePistas.reiniciar();
 	}
 
 	private void ubicarEntidadesYJugador() {
@@ -142,6 +148,7 @@ public class Logica {
 	}
 
 	public void intercambiar(Direccion direccion) {
+		asistentePistas.reiniciar();
 		if (miTablero.intercambiar_entidades(direccion)) {
 			miNivel.restarMovimientos();
 			miGUI.actualizarMovimientos(miNivel.getMovimientos());
@@ -172,6 +179,7 @@ public class Logica {
 
 	private void avanzarReloj() {
 		disminuirTiempo();
+		asistentePistas.tick(miTablero);
 		miGUI.actualizarTimer(getTiempo());
 		miGUI.refrescar();
 	}
@@ -258,6 +266,10 @@ public class Logica {
 
 	public int getVidas() {
 		return miNivel.getVidas();
+	}
+
+	public AsistentePistas getAsistentePistas() {
+		return asistentePistas;
 	}
 
 	public int getNivelActual() {

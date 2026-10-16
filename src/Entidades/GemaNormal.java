@@ -15,6 +15,11 @@ public class GemaNormal extends Gema{
 		cargarImagenesRepresentativas(rutadeLaImagen);
 	}
 
+	@Override
+	public boolean esMezclable() {
+		return true;
+	}
+
 	public void intercambiar(Entidad entidad) {
 		entidad.intercambiar_con(this);
 	}

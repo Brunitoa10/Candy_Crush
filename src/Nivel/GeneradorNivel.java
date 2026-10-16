@@ -44,6 +44,12 @@ public final class GeneradorNivel {
 		return miNivel;
 	}
 
+	/** Indica si existe el archivo NivelN.txt (para saber cuántos niveles tiene el juego). */
+	public static boolean existeNivel(int nivel) {
+		return GeneradorNivel.class.getResource(String.format(RECURSO_NIVEL, nivel)) != null
+				|| new File(String.format(ARCHIVO_NIVEL, nivel)).exists();
+	}
+
 	/** Busca el nivel en el classpath (funciona también desde un .jar); si no, en el disco. */
 	private static Scanner abrirNivel(int nivel) throws FileNotFoundException {
 		InputStream recurso = GeneradorNivel.class.getResourceAsStream(String.format(RECURSO_NIVEL, nivel));

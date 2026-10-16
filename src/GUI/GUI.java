@@ -37,7 +37,7 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String TITULO = "Candy Crush";
+	private static final String TITULO = "Proyecto Candy Crush - Comision-06";
 	private static final String ICONO = "/assets/nivel/Icono.png";
 	private static final int LARGO_NOMBRE_JUGADOR = 3;
 	private static final Color FONDO_TABLERO_INICIAL = new Color(0, 0, 0, 125);
@@ -57,6 +57,7 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 	protected CentralAnimaciones mi_animador;
 	protected JPanel panel_tablero, panel_principal;
 	private final Imagenfondo fondo = new Imagenfondo();
+	private final ParpadeoPista parpadeoPista = new ParpadeoPista();
 	/** Código de tecla -> acción (Command). Se arma una sola vez. */
 	private final Map<Integer, Runnable> acciones = new HashMap<>();
 
@@ -282,6 +283,14 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 		mi_animador.animar_cambio_visibilidad(celda);
 	}
 
+	public void mostrarPista(java.util.List<EntidadGrafica> celdas) {
+		parpadeoPista.mostrar(celdas);
+	}
+
+	public void ocultarPista() {
+		parpadeoPista.detener();
+	}
+
 	public void refrescar() {
 		repaint();
 		revalidate();
@@ -471,6 +480,7 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 
 		private static final long serialVersionUID = 4180857344385898634L;
 
+		private static final int CANTIDAD_FONDOS = 5;
 		private int nivelActual = 1;
 
 		@Override
@@ -482,7 +492,9 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 		}
 
 		private String rutaFondo() {
-			return "/assets/nivel/" + nivelActual + "_Nivel.png";
+			// hay 5 fondos: los niveles siguientes los reutilizan en ciclo
+			int fondo = ((nivelActual - 1) % CANTIDAD_FONDOS) + 1;
+			return "/assets/nivel/" + fondo + "_Nivel.png";
 		}
 
 		public void cambiarFondo(int nivel) {

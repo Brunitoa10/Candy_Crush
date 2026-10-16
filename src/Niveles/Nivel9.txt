@@ -1,0 +1,23 @@
+8
+0,0
+18
+55
+3
+t
+18,6
+12,1
+10,3
+f
+4
+l
+s
+t
+f
+n,4 n,5 n,3 n,3 n,2 n,2 n,1 n,3
+n,5 b,4 n,5 n,1 n,3 n,5 n,5 n,1
+n,6 n,4 n,2 n,6 n,4 n,6 n,4 n,2
+n,2 hn,2 hn,1 hn,1 hn,3 hn,5 hn,5 n,1
+n,6 hn,4 hn,6 hn,1 hn,3 hn,2 hn,6 n,2
+n,6 n,4 n,1 n,4 n,2 n,4 n,3 n,3
+n,1 n,2 n,6 n,1 n,4 n,1 b,4 n,4
+r,7 n,2 n,1 n,2 n,4 n,6 n,1 r,7

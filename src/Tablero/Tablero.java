@@ -140,6 +140,50 @@ public class Tablero implements TableroJuego{
 		return en_rango(filaVecina, columnaVecina) && entidades[filaVecina][columnaVecina].esAfectadaPorExplosionAdyacente();
 	}
 
+	private static final int INTENTOS_MEZCLA = 200;
+
+	/**
+	 * Si el tablero quedó sin jugadas posibles, recolorea las gemas normales al azar hasta que
+	 * no haya líneas ya formadas y exista al menos una jugada. Devuelve true si mezcló.
+	 */
+	public boolean mezclarSiNoHayJugadas() {
+		if (buscarPista() != null) {
+			return false;
+		}
+		List<Entidad> mezclables = new ArrayList<>();
+		for (int f = 0; f < filas; f++) {
+			for (int c = 0; c < columnas; c++) {
+				if (entidades[f][c].esMezclable()) {
+					mezclables.add(entidades[f][c]);
+				}
+			}
+		}
+		if (mezclables.isEmpty()) {
+			return false;
+		}
+		int[] coloresOriginales = mezclables.stream().mapToInt(Entidad::get_color).toArray();
+		for (int intento = 0; intento < INTENTOS_MEZCLA; intento++) {
+			for (Entidad e : mezclables) {
+				e.set_color(RANDOM.nextInt(Color.CANTIDAD_COLORES_GEMA) + 1); // solo el modelo, sin animar
+			}
+			if (miAdministradordeEstrategias.buscarTodasLasLineas().isEmpty() && buscarPista() != null) {
+				for (Entidad e : mezclables) {
+					e.cambiarColor(e.get_color()); // ahora sí se refresca la imagen
+				}
+				return true;
+			}
+		}
+		for (int i = 0; i < mezclables.size(); i++) { // no se encontró una mezcla válida: se deja como estaba
+			mezclables.get(i).set_color(coloresOriginales[i]);
+		}
+		return false;
+	}
+
+	/** Una jugada posible para mostrar como pista (o null si no hay). */
+	public Pista buscarPista() {
+		return new BuscadorDeJugadas(this).buscarPista();
+	}
+
 	/** Ruta de la imagen que representa a un tipo de gema (usada en el panel de objetivos). */
 	public String obtenerTipoGema(int tipoGema) {
 		return RUTA_GEMAS + skin + "/gema_normal/" + tipoGema + ".png";
@@ -174,6 +218,7 @@ public class Tablero implements TableroJuego{
 
 		if (efecto.existen_entidades_a_detonar()) {
 			transicionar_proximo_estado(efecto);
+			mezclarSiNoHayJugadas();
 			reenfocarJugador();
 			return true;
 		}

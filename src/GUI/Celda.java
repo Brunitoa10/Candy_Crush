@@ -14,6 +14,10 @@ public class Celda extends JLabel implements EntidadGrafica {
 	protected MultiIcon miMultiIcon;
 
 	protected int size_label;
+	private boolean resaltada;
+
+	private static final java.awt.Color BRILLO_PISTA = new java.awt.Color(255, 255, 255, 90);
+	private static final java.awt.Color BORDE_PISTA = new java.awt.Color(255, 215, 0, 230);
 
 	public Celda(GUI ventana, EntidadLogica entidad_logica, int size_label, boolean visible) {
 		super();
@@ -51,6 +55,28 @@ public class Celda extends JLabel implements EntidadGrafica {
 
 	public void eliminar_de_ventana() {
 		ventana.eliminar_celda(this);
+	}
+
+	public void resaltar(boolean resaltada) {
+		if (this.resaltada != resaltada) {
+			this.resaltada = resaltada;
+			repaint();
+		}
+	}
+
+	@Override
+	protected void paintComponent(java.awt.Graphics g) {
+		super.paintComponent(g);
+		if (resaltada) {
+			java.awt.Graphics2D g2 = (java.awt.Graphics2D) g.create();
+			g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setColor(BRILLO_PISTA);
+			g2.fillRoundRect(3, 3, getWidth() - 6, getHeight() - 6, 18, 18);
+			g2.setColor(BORDE_PISTA);
+			g2.setStroke(new java.awt.BasicStroke(3f));
+			g2.drawRoundRect(3, 3, getWidth() - 6, getHeight() - 6, 18, 18);
+			g2.dispose();
+		}
 	}
 
 	public MultiIcon getMultiIcon() {
