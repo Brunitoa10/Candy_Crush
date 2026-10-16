@@ -1,0 +1,37 @@
+package Score;
+
+import java.io.Serializable;
+
+public class Jugador implements Serializable
+{
+	private static final long serialVersionUID = 1L;
+
+	protected int score;
+	protected String nombre;
+
+	public Jugador(String nombre, int score)
+	{
+		this.score = score;
+		this.nombre = nombre;
+	}
+
+	public void setNombre(String nombre)
+	{
+		this.nombre = nombre;
+	}
+
+	public void setScore(int score)
+	{
+		this.score = score;
+	}
+
+	public int get_score()
+	{
+		return score;
+	}
+
+	public String get_nombre()
+	{
+		return nombre;
+	}
+}
