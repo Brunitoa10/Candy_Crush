@@ -37,7 +37,7 @@ public class GUI extends JFrame implements VentanaAnimable, VentanaNotificable, 
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String TITULO = "Proyecto Candy Crush - Comision-06";
+	private static final String TITULO = "Candy Crush";
 	private static final String ICONO = "/assets/nivel/Icono.png";
 	private static final int LARGO_NOMBRE_JUGADOR = 3;
 	private static final Color FONDO_TABLERO_INICIAL = new Color(0, 0, 0, 125);
