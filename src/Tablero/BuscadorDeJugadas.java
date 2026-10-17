@@ -1,6 +1,7 @@
 package Tablero;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
@@ -61,7 +62,7 @@ public class BuscadorDeJugadas {
 			return null;
 		}
 		if (origen.se_produce_match_con(destino)) { // combinación de dos especiales
-			return new Pista(f, c, d, List.of(origen, destino));
+			return new Pista(f, c, d, Arrays.asList(origen, destino));
 		}
 
 		intercambiar(colores, f, c, fd, cd);

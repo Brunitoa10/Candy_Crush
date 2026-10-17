@@ -1,0 +1,3 @@
+Main-Class: Logica.Logica
+Class-Path: lib/candycrush-obstaculos.jar lib/sqlite-jdbc.jar lib/slf4j-api.jar lib/slf4j-nop.jar
+Enable-Native-Access: ALL-UNNAMED

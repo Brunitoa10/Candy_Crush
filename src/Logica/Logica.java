@@ -289,6 +289,7 @@ public class Logica {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		RegistroErrores.instalar(); // con javaw no hay consola: los errores van a data\error.log y a un cartel
 		EventQueue.invokeLater(Logica::new);
 	}
 }
